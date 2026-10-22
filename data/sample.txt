@@ -1,0 +1,29 @@
+Retrieval-augmented generation (RAG) combines information retrieval with language generation.
+Indexing loads documents, splits them into chunks, creates embeddings, and stores the vectors in
+an index. Retrieval finds the chunks that are most relevant to a user query. Generation gives the
+language model both the query and the retrieved context, so the answer is grounded in the
+documents instead of relying only on parametric memory.
+
+Chunking matters. Chunks that are too small lose context, while chunks that are too large dilute
+the embedding and waste prompt tokens. A recursive splitter that respects paragraph and sentence
+boundaries is a strong default. Overlap preserves meaning that straddles a boundary.
+
+Multi-query retrieval rewrites one question into several variants and searches with each of them.
+RAG-Fusion combines the resulting ranked lists with reciprocal rank fusion. Query decomposition
+breaks a complex question into smaller, answerable sub-questions. Step-back prompting asks a
+broader conceptual question first. HyDE generates a hypothetical answer and embeds that answer to
+improve retrieval when the question and the documents use different vocabulary.
+
+Routing selects a data source or a processing path before retrieval. Structured query generation
+turns a natural-language request into a typed object with explicit fields. Multi-representation
+indexing retrieves using summaries but returns the full documents. RAPTOR builds a hierarchy of
+clustered summaries so that both local detail and global themes can be retrieved. ColBERT uses
+token-level late interaction for fine-grained ranking. Cross-encoder re-ranking re-scores an
+initial candidate set with a slower but more accurate model. Contextual compression removes the
+irrelevant material from retrieved documents before generation. Hybrid search runs dense vector
+retrieval and sparse keyword retrieval together, then fuses the two rankings.
+
+Evaluation is part of the pipeline. Measure retrieval recall at k, answer faithfulness to the
+retrieved context, and latency for the full request. A technique that improves one metric can
+degrade another, so compare each variant against a simple dense-retrieval baseline before
+adopting it.
